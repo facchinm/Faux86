@@ -28,6 +28,7 @@
 #include "../../data/asciivga.h"
 #include "../../data/pcxtbios.h"
 #include "../../data/videorom.h"
+#include "../../data/rombasic.h"
 
 int main(int argc, char *argv[])
 {
@@ -38,6 +39,7 @@ int main(int argc, char *argv[])
 	vmConfig.biosFile = new Faux86::EmbeddedDisk(pcxtbios, sizeof(pcxtbios));
 	vmConfig.videoRomFile = new Faux86::EmbeddedDisk(videorom, sizeof(videorom));
 	vmConfig.asciiFile = new Faux86::EmbeddedDisk(asciivga, sizeof(asciivga));
+	vmConfig.romBasicFile = new Faux86::EmbeddedDisk(rombasic_bin, rombasic_bin_len);
 
 	vmConfig.parseCommandLine(argc, argv);
 	//vmConfig.singleThreaded = false;
