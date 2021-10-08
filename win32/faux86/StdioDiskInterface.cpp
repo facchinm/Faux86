@@ -24,7 +24,7 @@ using namespace Faux86;
 
 StdioDiskInterface::StdioDiskInterface(const char* filename)
 {
-	fopen_s(&diskFile, filename, "r+b");
+	diskFile = fopen(filename, "r+b");
 
 	if (diskFile)
 	{

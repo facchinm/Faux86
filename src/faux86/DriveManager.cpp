@@ -21,7 +21,7 @@
 
 #include "VM.h"
 #include "DriveManager.h"
-#include "Ram.h"
+#include "RAM.h"
 
 using namespace Faux86;
 

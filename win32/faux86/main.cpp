@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
-#include <Windows.h>
+
 #include <stdio.h>
 #include <new>
 #include "../../src/faux86/VM.h"
@@ -35,9 +35,9 @@ int main(int argc, char *argv[])
 
 	Faux86::Config vmConfig(&hostInterface);
 	
-	//vmConfig.biosFile = new Faux86::EmbeddedDisk(pcxtbios, sizeof(pcxtbios));
-	//vmConfig.videoRomFile = new Faux86::EmbeddedDisk(videorom, sizeof(videorom));
-	//vmConfig.asciiFile = new Faux86::EmbeddedDisk(asciivga, sizeof(asciivga));
+	vmConfig.biosFile = new Faux86::EmbeddedDisk(pcxtbios, sizeof(pcxtbios));
+	vmConfig.videoRomFile = new Faux86::EmbeddedDisk(videorom, sizeof(videorom));
+	vmConfig.asciiFile = new Faux86::EmbeddedDisk(asciivga, sizeof(asciivga));
 
 	vmConfig.parseCommandLine(argc, argv);
 	//vmConfig.singleThreaded = false;
