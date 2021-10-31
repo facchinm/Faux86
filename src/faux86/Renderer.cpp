@@ -65,6 +65,8 @@ Renderer::~Renderer()
 	}
 }
 
+#define DOUBLE_BUFFER
+
 void Renderer::init()
 {
 	fb = &vm.config->hostSystemInterface->getFrameBuffer();
@@ -77,7 +79,7 @@ void Renderer::init()
 	hostSurface = fb->getSurface();
 
 #ifdef DOUBLE_BUFFER
-	renderSurface = RenderSurface::create(1024, 1024);
+	renderSurface = RenderSurface::create(720, 400);
 #else
 	renderSurface = hostSurface;
 #endif
@@ -734,7 +736,7 @@ RenderSurface* RenderSurface::create(uint32_t inWidth, uint32_t inHeight)
 	RenderSurface* newSurface = new RenderSurface();
 	newSurface->width = newSurface->pitch = inWidth;
 	newSurface->height = inHeight;
-	newSurface->pixels = new uint8_t[inWidth * inHeight];
+	newSurface->pixels = (uint8_t*)ea_malloc(inWidth * inHeight);
 	return newSurface;
 }
 

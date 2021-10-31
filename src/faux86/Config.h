@@ -26,8 +26,9 @@
 //you will likely get some unexpected/bad results!
 //#define CPU_8086
 //#define CPU_186
-#define CPU_V20
+//#define CPU_V20
 //#define CPU_286
+#define CPU_386
 
 #if defined(CPU_8086)
 	#define CPU_CLEAR_ZF_ON_MUL
@@ -109,7 +110,7 @@ namespace Faux86
 		HostSystemInterface* hostSystemInterface;
 
 		uint32_t ramSize = DEFAULT_RAM_SIZE;
-		CpuType cpuType = CpuType::Cpu286;
+		CpuType cpuType = CpuType::Cpu386;
 
 		DiskInterface* biosFile = nullptr;
 		DiskInterface* ideControllerFile = nullptr;

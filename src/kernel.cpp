@@ -143,6 +143,11 @@ bool CKernel::Initialize ()
 			vmConfig->diskDriveA = dos;
 		}
 
+		if(!vmConfig->diskDriveC) {
+			auto dos = Faux86::FatFsDisk::open("/fs/wolf.img");
+			vmConfig->diskDriveC = dos;
+		}
+
 		vmConfig->diskDriveD = new CircleDeviceDisk(&ota_data);
 
 		// TODO

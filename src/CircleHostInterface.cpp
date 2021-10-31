@@ -92,7 +92,7 @@ static void DMA2D_CopyBuffer(uint32_t *pSrc, uint32_t *pDst)
 {
   HAL_DMA2D_PollForTransfer(&DMA2D_Handle, 100);  /* wait for the previous DMA2D transfer to ends */
   /* copy the new decoded frame to the LCD Frame buffer*/
-  HAL_DMA2D_Start(&DMA2D_Handle, (uint32_t)pSrc, (uint32_t)pDst, _expected_width, _expected_height);
+  HAL_DMA2D_Start(&DMA2D_Handle, (uint32_t)pSrc, (uint32_t)pDst, 640, 480 /*_expected_width, _expected_height*/);
 #if defined(CORE_CM7) && !defined(DEBUG_CM7_VIDEO) 
   HAL_DMA2D_PollForTransfer(&DMA2D_Handle, 100);  /* wait for the previous DMA2D transfer to ends */
 #endif
