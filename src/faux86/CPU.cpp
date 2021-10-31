@@ -25,7 +25,7 @@
 
 #include "VM.h"
 #include "CPU.h"
-#include "Ram.h"
+#include "RAM.h"
 #include "Debugger.h"
 #include "modregrm.h"
 

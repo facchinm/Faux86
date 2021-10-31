@@ -21,7 +21,7 @@
 
 /* packet.c: functions to interface with libpcap/winpcap for ethernet emulation. */
 
-#include "config.h"
+#include "Config.h"
 
 #ifdef NETWORKING_ENABLED
 #define HAVE_REMOTE

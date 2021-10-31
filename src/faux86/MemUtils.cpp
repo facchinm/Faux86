@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 #include "MemUtils.h"
-//#include "SDRAM.h"
+#include <cstddef>
 
 using namespace Faux86;
 

@@ -39,6 +39,6 @@ typedef uint32_t size_t;
 #define assert(x)
 #endif
 
-#ifndef _WIN32
+#if 0
 typedef unsigned int size_t;
 #endif

@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include "config.h"
+#include "Config.h"
 #ifdef DISK_CONTROLLER_ATA
 #include <stdint.h>
 #include <stdio.h>
