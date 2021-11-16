@@ -22,6 +22,10 @@
 #include "Config.h"
 #include "DriveManager.h"
 #include "VM.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <cstring>
 
 using namespace Faux86;
 
@@ -29,13 +33,17 @@ using namespace Faux86;
 #define PATH_DATAFILES ""
 #endif
 
+/*
 #ifndef _WIN32
 #define strcmpi strcasecmp
 #else
 #define strcmpi _strcmpi
 #endif
+*/
 
-#if _WIN32
+#define strcmpi strcmp
+
+#if 1
 #define WITH_COMMAND_LINE_PARSING 1
 #else
 #define WITH_COMMAND_LINE_PARSING 0
