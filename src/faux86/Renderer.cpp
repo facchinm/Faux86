@@ -65,7 +65,7 @@ Renderer::~Renderer()
 	}
 }
 
-#define DOUBLE_BUFFER
+//#define DOUBLE_BUFFER
 
 void Renderer::init()
 {
@@ -84,7 +84,7 @@ void Renderer::init()
 	renderSurface = hostSurface;
 #endif
 
-	createScaleMap();
+	//createScaleMap();
 
 	refreshTextMode();
 

@@ -37,7 +37,7 @@ namespace Faux86
 		virtual void setPalette(Palette* palette) override;
 
 	private:
-		uint16_t* frameBuffer = nullptr;
+		uint8_t* frameBuffer = nullptr;
 		RenderSurface* surface = nullptr;
 	};
 
