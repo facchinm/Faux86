@@ -140,7 +140,7 @@ void DG_Init()
   SDRAM.begin(getFramebufferEnd());
 
   fb = getNextFrameBuffer();
-  RPC.call("m4_fbs", fb, getNextFrameBuffer());
+  RPC.call("m4_fbs", getNextFrameBuffer(), getNextFrameBuffer(), (uint32_t)DG_ScreenBuffer);
 
   stm32_LCD_Clear(0xFFFFFF00);
   stm32_LCD_Clear(0xFFFFFF00);
@@ -184,7 +184,8 @@ void Faux86::log(Faux86::LogChannel channel, const char* message, ...)
 }
 
 uint32_t m4_malloc(size_t bytes) {
-	return RPC.call("m4_malloc", bytes).as<uint32_t>();
+	uint32_t ret = RPC.call("m4_malloc", bytes).as<uint32_t>();
+	return ret;
 }
 
 uint32_t m4_free(uint32_t ptr) {
@@ -194,9 +195,9 @@ uint32_t m4_free(uint32_t ptr) {
 void CircleFrameBufferInterface::init(uint32_t desiredWidth, uint32_t desiredHeight)
 {	
 	if (DG_ScreenBuffer == NULL) {
-		DG_ScreenBuffer = (uint8_t*)m4_malloc(stm32_getXSize() * stm32_getYSize());
+		DG_ScreenBuffer = (uint8_t*)ea_malloc(desiredWidth * desiredHeight);
 	}
-	memset(DG_ScreenBuffer, 0, stm32_getXSize() * stm32_getYSize());
+	memset(DG_ScreenBuffer, 0, desiredWidth * desiredHeight);
 
 	log(Log, "requesting size %d %d", desiredWidth, desiredHeight);
 	log(Log, "got size %d %d", stm32_getXSize(), stm32_getYSize());
@@ -210,6 +211,8 @@ void CircleFrameBufferInterface::init(uint32_t desiredWidth, uint32_t desiredHei
 	surface->pitch = desiredWidth;
 	surface->pixels = (uint8_t*)DG_ScreenBuffer;
 	DMA2D_Init(getSurface()->width, getSurface()->height);
+
+  	RPC.call("m4_fbs", getNextFrameBuffer(), getNextFrameBuffer(), (uint32_t)DG_ScreenBuffer);
 
 	frameBuffer = (uint8_t*)DG_ScreenBuffer;
 }
@@ -225,16 +228,18 @@ void CircleFrameBufferInterface::resize(uint32_t desiredWidth, uint32_t desiredH
 	_expected_width = desiredWidth;
 	_expected_height = desiredHeight;
 
-	m4_free((uint32_t)DG_ScreenBuffer);
+	ea_free(DG_ScreenBuffer);
 
-	DG_ScreenBuffer = (uint8_t*)m4_malloc(stm32_getXSize() * stm32_getYSize());
-	memset(DG_ScreenBuffer, 0, stm32_getXSize() * stm32_getYSize());
+	DG_ScreenBuffer = (uint8_t*)ea_malloc(desiredWidth * desiredHeight);
+	memset(DG_ScreenBuffer, 0,  desiredWidth * desiredHeight);
 
 	surface = new RenderSurface();
 	surface->width = desiredWidth;
 	surface->height = desiredHeight;
 	surface->pitch = desiredWidth;
 	surface->pixels = (uint8_t*)DG_ScreenBuffer;
+
+	RPC.call("m4_fbs", getNextFrameBuffer(), getNextFrameBuffer(), (uint32_t)DG_ScreenBuffer);
 
 	frameBuffer = (uint8_t*)DG_ScreenBuffer;
 }
@@ -266,6 +271,7 @@ void CircleFrameBufferInterface::setPalette(Palette* palette)
 
 int i = 0;
 void CircleFrameBufferInterface::present() {
+	RPC.send("refresh");
 	//DG_DrawFrame();
 }
 

@@ -525,9 +525,9 @@ void Renderer::draw ()
 			break;
 		case 4:
 		case 5:
-			assert(nativeWidth == 320 && nativeHeight == 200);
-			//nativeWidth = 320;
-			//nativeHeight = 200;
+			//assert(nativeWidth == 320 && nativeHeight == 200);
+			nativeWidth = 320;
+			nativeHeight = 200;
 			usepal = (portram[0x3D9] >> 5) & 1;
 			intensity = ((portram[0x3D9] >> 4) & 1) << 3;
 			for (y = 0; y < 200; y++) {

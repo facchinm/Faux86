@@ -97,12 +97,39 @@ void on_key(uint8_t k1, uint8_t k2, uint8_t k3) {
 
 void DG_Init();
 
+void mpu() {
+  MPU_Region_InitTypeDef MPU_InitStruct;
+
+  /* Disables the MPU */
+  HAL_MPU_Disable();
+  /**Initializes and configures the Region and the memory to be protected
+  */
+  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+  MPU_InitStruct.Number = MPU_REGION_NUMBER7;
+  MPU_InitStruct.BaseAddress = 0x24000000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_8MB;
+  MPU_InitStruct.SubRegionDisable = 0x0;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+}
+
 bool CKernel::Initialize ()
 {
 	bool bOK = true;
 
 	// Video begin
 	// USBHOST begin
+	RPC.begin();
+	delay(100);
+	RPC.bind("on_key", on_key);
+
 	DG_Init();
 
 	wifi_data_fs.mount(&wifi_data);
@@ -160,13 +187,11 @@ bool CKernel::Initialize ()
 		log(Log, "Creating VM\n");
 		void* place = ea_malloc(sizeof(Faux86::VM));
 
+		//mpu();
+
 		vm = new (place) Faux86::VM(vmConfig);
 
 		log(Log, "Init VM\n");
-		
-		RPC.begin();
-  	delay(100);
-  	RPC.bind("on_key", on_key);
 
 		bOK = vm->init();
 		_vm = vm;
